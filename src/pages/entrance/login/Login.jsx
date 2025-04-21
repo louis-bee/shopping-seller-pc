@@ -11,12 +11,17 @@ const Login = ({setTab}) => {
 
   const onFinish = async (values) => {
     // 这里调用接口
-    const res = await dispatch(fetchLogin(values));
-    if (res) {
+    const params = {
+      account: values.account,
+      pwd: values.pwd,
+      role: 2,
+    }
+    const res = await dispatch(fetchLogin(params));
+    if (res.status===200) {
       message.success('登录成功');
       navigate('/');
     } else {
-      message.error('登录失败，请稍后再试');
+      message.error(res.desc);
     }
     console.log('Success:', values);
   };

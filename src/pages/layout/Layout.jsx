@@ -11,7 +11,7 @@ import './Layout.scss'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { clearUserInfo, fetchUserInfo } from '@/store/modules/user'
+import { clearUserInfo} from '@/store/modules/user'
 
 const { Header, Sider } = Layout
 
@@ -53,16 +53,10 @@ const SellerLayout = () => {
   const location = useLocation()
   const selectedKeys = location.pathname
 
-  const name = '大黄丰'
-  // const name =  useSelector(state=>state.user.userInfo.name)
-
-  // const dispatch = useDispatch()
-  // useEffect(()=>{
-  //   dispatch(fetchUserInfo())
-  // },[dispatch])
-
+  const userName =  useSelector(state => state.user.userInfo.userName)
+  const dispatch = useDispatch()
   const onConfirm = ()=>{
-    // dispatch(clearUserInfo())
+    dispatch(clearUserInfo())
     Navigate('/login')
   }
 
@@ -71,7 +65,7 @@ const SellerLayout = () => {
       <Header className="header">
         <div className="logo">销售后台</div>
         <div className="user-info">
-          <span className="user-name">{name}</span>
+          <span className="user-name">{userName}</span>
           <span className="user-logout">
             <Popconfirm title="是否确认退出？" okText="退出" cancelText="取消" onConfirm={onConfirm}>
               <LogoutOutlined /> 退出

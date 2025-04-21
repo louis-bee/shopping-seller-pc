@@ -33,7 +33,6 @@ const Register = ({setTab}) => {
       <h1>销售人员注册</h1>
       <Form
         className="form"
-        initialValues={{ account: '13724648288', password: '123123' }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
       >
@@ -63,7 +62,17 @@ const Register = ({setTab}) => {
         <Form.Item
           label="确认密码"
           name="pwd2"
-          rules={[{ required: true, message: '密码不能为空' }]}
+          rules={[
+            { required: true, message: '密码不能为空' },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue('pwd') === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(new Error('两次输入的密码不一致'));
+              },
+            }),
+          ]}
         >
           <Input.Password size="large" placeholder="请再次输入密码" />
         </Form.Item>

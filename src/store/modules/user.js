@@ -29,9 +29,7 @@ const userReducer = userStore.reducer
 
 const fetchLogin = (loginForm) =>{
   return async (dispatch)=>{
-    console.log('请求');
     const res = await loginAPI(loginForm)
-    console.log('得到');
     if(res.status===200) {
       dispatch(setToken(res.data.token))
       const userInfo = {
@@ -41,20 +39,11 @@ const fetchLogin = (loginForm) =>{
         account: res.data.account,
       }
       dispatch(setUserInfo(userInfo))
-      return true
-    } else {
-      return false
     }
+    return res
   }
 }
 
-const fetchUserInfo = () =>{
-  // return async (dispatch)=>{
-  //   const res = await registerAPI()
-  //   dispatch(setUserInfo(res.data))
-  // }
-}
-
-export { setToken, fetchLogin, fetchUserInfo, clearUserInfo }
+export { setToken, fetchLogin, clearUserInfo }
 
 export default userReducer
