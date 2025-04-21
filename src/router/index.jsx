@@ -1,5 +1,5 @@
 import Layout from "@/pages/layout/Layout.jsx";
-import Login from "@/pages/login/Login.jsx"
+import Entrance from "@/pages/entrance/Entrance.jsx"
 
 import { createBrowserRouter } from "react-router-dom";
 // import { AuthRoute } from "@/components/AuthRoute";  //路由守卫
@@ -41,7 +41,7 @@ const router = createBrowserRouter([
   },
   {
     path:"/login",
-    element:<Login/>
+    element:<Entrance/>
   }
 ])
 

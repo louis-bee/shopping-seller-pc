@@ -8,10 +8,14 @@ const request = axios.create({
 
 // 添加请求拦截器
 request.interceptors.request.use((config)=> {
-  localStorage.getItem('token')
+  console.log('拦截器');
+  
+  const token = localStorage.getItem('token')
+  console.log('拦截器2');
   if(token) {
     config.headers.Authorization = `Bearer ${token}`
   }
+  console.log('拦截器3');
   return config
 }, (error)=> {
   return Promise.reject(error)

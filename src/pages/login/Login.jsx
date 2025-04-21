@@ -11,8 +11,7 @@ const Login = () => {
 
   const onFinish = async (values) => {
     // 这里调用接口
-    const res  = true
-    // const res = await dispatch(fetchLogin(values));
+    const res = await dispatch(fetchLogin(values));
     if (res) {
       message.success('登录成功');
       navigate('/');
@@ -68,26 +67,26 @@ const Login = () => {
             </Button>
           </Form.Item>
         </Form>
+        <Modal
+          style={{ top: 200 }}
+          open={isModalOpen}
+          onOk={handleOk}
+          onCancel={handleOk}
+          footer={[
+            <Button key="close" type="primary" onClick={handleOk}>
+              关闭
+            </Button>,
+          ]}
+        >
+          <h2 style={{ marginBottom: 16 }}>请联系管理员</h2>
+          <p style={{ marginBottom: 5 }}>电话：13724648288</p>
+          <p>邮箱：2720447678@qq.com</p>
+        </Modal>
         <div className="link">
           <a>注册</a>
           <a onClick={showModal}>忘记密码</a>
         </div>
       </Card>
-      <Modal
-        style={{ top: 200 }}
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleOk}
-        footer={[
-          <Button key="close" type="primary" onClick={handleOk}>
-            关闭
-          </Button>,
-        ]}
-      >
-        <h2 style={{ marginBottom: 16 }}>请联系管理员</h2>
-        <p style={{ marginBottom: 5 }}>电话：13724648288</p>
-        <p>邮箱：2720447678@qq.com</p>
-      </Modal>
     </div>
   );
 };

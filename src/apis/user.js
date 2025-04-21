@@ -2,7 +2,7 @@ import { request } from "@/utils";
 
 export function loginAPI(params) {
   return request({
-    url:'/login',
+    url:'api/login',
     method:'POST',
     data: params
   })
@@ -10,7 +10,7 @@ export function loginAPI(params) {
 
 export function registerAPI(params) {
   return request({
-    url:'/register',
+    url:'api/register',
     method:'POST',
     data: params
   })

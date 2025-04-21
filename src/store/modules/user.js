@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { registerAPI, loginAPI } from "@/apis/user.js";
+import { loginAPI } from "@/apis/user.js";
 
 const userStore =  createSlice({
   name: "user",
@@ -29,16 +29,30 @@ const userReducer = userStore.reducer
 
 const fetchLogin = (loginForm) =>{
   return async (dispatch)=>{
+    console.log('请求');
     const res = await loginAPI(loginForm)
-    dispatch(setToken(res.data.token))
+    console.log('得到');
+    if(res.status===200) {
+      dispatch(setToken(res.data.token))
+      const userInfo = {
+        id: res.data.id,
+        userName: res.data.userName,
+        balance: res.data.balance,
+        account: res.data.account,
+      }
+      dispatch(setUserInfo(userInfo))
+      return true
+    } else {
+      return false
+    }
   }
 }
 
 const fetchUserInfo = () =>{
-  return async (dispatch)=>{
-    const res = await registerAPI()
-    dispatch(setUserInfo(res.data))
-  }
+  // return async (dispatch)=>{
+  //   const res = await registerAPI()
+  //   dispatch(setUserInfo(res.data))
+  // }
 }
 
 export { setToken, fetchLogin, fetchUserInfo, clearUserInfo }
