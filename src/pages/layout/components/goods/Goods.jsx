@@ -1,25 +1,18 @@
-import { Link, useNavigate } from 'react-router-dom'
-import { Card, Breadcrumb, Form, Button, Radio, DatePicker, Select, Popconfirm } from 'antd'
-
-// 导入资源
-import { Table, Tag, Space } from 'antd'
+import { useNavigate } from 'react-router-dom'
+import { Card, Button, Popconfirm, Table, Tag, Space } from 'antd'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import img404 from '@/assets/img/error.png'
-// import { useChannel } from '@/hooks/useChannel'
 import { useEffect, useState } from 'react'
-// import { delArticleAPI, getArticleListAPI } from '@/apis/article'
-
-const { Option } = Select
-const { RangePicker } = DatePicker
+import { useSelector } from 'react-redux'
+import { delGoodsAPI, getGoodsListAPI } from '@/apis/goods'
 
 const Goods = () => {
 
   const navigate = useNavigate()
-  // const { channelList } = useChannel()
 
   const status = {
-    0: <Tag color="warning">下架</Tag>,
-    1: <Tag color="success">在售</Tag>
+    1: <Tag color="warning">下架</Tag>,
+    2: <Tag color="success">在售</Tag>
   }
   const columns = [
     {
@@ -85,64 +78,50 @@ const Goods = () => {
       }
     }
   ]
-  // 准备表格body数据
-  const data = [
-    {
-      id: '8218',
-      goodsName: '吉他手',
-      status: 1,
-      type: '唱片',
-      price: 232.12,
-      sales: 32,
-      view: 1001,
-      amount: 99,
-      cover: {
-        images: [],
-      },
-    }
-  ]
 
   const [ list, setList] = useState([])
   const [count, setCount] = useState(0)
-  
-  const [ reqData, setReqData ] = useState({
-    status: '',
-    channel_id:'',
-    begin_pubdate:'',
-    end_pubdate:'',
-    page:1,
-    per_page:4
+
+  const userId =  useSelector(state => state.user.userInfo.id)
+  const [ params, setParams ] = useState({
+    sellerId: userId,
+    pageSize: 10,
+    pageNum: 1,
   }) 
 
   useEffect(()=>{
     async function getList() {
-      const res = await getArticleListAPI(reqData)
-      setList(res.data.results)
-      setCount(res.data.total_count)
+      const res = await getGoodsListAPI(params)
+      setList(res.data.list)
+      setCount(res.data.total)
     }
     getList()
-  },[reqData])
+  },[params])
 
   const onPageChange = (page)=>{
-    setReqData({
-      ...reqData,
-      page
+    setParams({
+      ...params,
+      pageNum: page
     })
   }
 
   const onConfirm = async (data)=>{
-    await  delArticleAPI(data.id)
-    setReqData({
-      ...reqData
+    const delParams = {
+      id: data.id,
+      sellerId: userId,
+    }
+    await delGoodsAPI(delParams)
+    setParams({
+      ...params
     })
   }
 
   return (
     <div>
       <Card title='商品列表' style={{ marginBottom: 20 }} >
-        <Table rowKey="id" columns={columns} dataSource={data} pagination={{
+        <Table rowKey="id" columns={columns} dataSource={list} pagination={{
           total: count,
-          pageSize: reqData.per_page,
+          pageSize: params.pageSize,
           onChange: onPageChange
         }}/>
       </Card>

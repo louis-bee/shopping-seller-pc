@@ -14,17 +14,13 @@ import './Edit.scss'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import { useState, useRef, useEffect } from 'react'
-import { createGoodsAPI, getGoodsByIdAPI, updateGoodsAPI } from '@/apis/goods'
+import { addGoodsAPI, getGoodsByIdAPI, updateGoodsAPI } from '@/apis/goods'
 
 const { Option } = Select
 
 const Edit = () => {
   const Navigate = useNavigate()
   const typeList = [
-    {
-      "id": 0,
-      "name": "特价"
-    },
     {
       "id": 1,
       "name": "唱片"
@@ -40,6 +36,10 @@ const Edit = () => {
     {
       "id": 4,
       "name": "其它"
+    },
+    {
+      "id": 5,
+      "name": "特价"
     },
   ]
 
@@ -62,7 +62,7 @@ const Edit = () => {
     if(goodsId) {
       res = await updateGoodsAPI({...params, id:goodsId})
     } else {
-      res = await createGoodsAPI(params)
+      res = await addGoodsAPI(params)
     }
     if(res.status===200) {
       message.success(res.desc)
@@ -86,9 +86,8 @@ const Edit = () => {
 
   const [form] = Form.useForm()
   useEffect(()=>{
-    console.log(goodsId);
     async function getGoodsDetail () {
-      const res = await getGoodsByIdAPI(goodsId)
+      const res = await getGoodsByIdAPI({id: goodsId, view: false})
       if(res.status===200) {
         const data = res.data
         const {cover} = data
@@ -151,8 +150,8 @@ const Edit = () => {
             rules={[{ required: true, message: '请选择是否上架' }]}
           >
             <Select placeholder="请选择是否上架" style={{ width: 200 }}>
-              <Option value={0}>下架</Option>
-              <Option value={1}>在售</Option>
+              <Option value={1}>下架</Option>
+              <Option value={2}>在售</Option>
             </Select>
           </Form.Item>
           <Form.Item

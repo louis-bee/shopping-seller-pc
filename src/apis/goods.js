@@ -8,9 +8,17 @@ export function getGoodsByIdAPI(params) {
   })
 }
 
-export function createGoodsAPI(params) {
+export function getGoodsListAPI(params) {
   return request({
-    url:'goods/createGoods',
+    url:'goods/getGoodsList',
+    method:'POST',
+    data: params
+  })
+}
+
+export function addGoodsAPI(params) {
+  return request({
+    url:'goods/addGoods',
     method:'POST',
     data: params
   })
@@ -19,6 +27,14 @@ export function createGoodsAPI(params) {
 export function updateGoodsAPI(params) {
   return request({
     url:'goods/updateGoods',
+    method:'POST',
+    data: params
+  })
+}
+
+export function delGoodsAPI(params) {
+  return request({
+    url:'goods/delGoods',
     method:'POST',
     data: params
   })

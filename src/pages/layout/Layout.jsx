@@ -9,7 +9,6 @@ import {
 } from '@ant-design/icons'
 import './Layout.scss'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearUserInfo} from '@/store/modules/user'
 
