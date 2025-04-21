@@ -1,0 +1,99 @@
+import { Layout, Menu, Popconfirm } from 'antd'
+import {
+  BarChartOutlined,
+  AppstoreOutlined,
+  FormOutlined,
+  SnippetsOutlined,
+  UserOutlined,
+  LogoutOutlined,
+} from '@ant-design/icons'
+import './Layout.scss'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { clearUserInfo, fetchUserInfo } from '@/store/modules/user'
+
+const { Header, Sider } = Layout
+
+const items = [
+  {
+    label: '数据中心',
+    key: '/',
+    icon: <BarChartOutlined />,
+  },
+  {
+    label: '商品列表',
+    key: '/goods',
+    icon: <AppstoreOutlined />,
+  },
+  {
+    label: '发布商品',
+    key: '/edit',
+    icon: <FormOutlined />,
+  },
+  {
+    label: '订单列表',
+    key: '/order',
+    icon: <SnippetsOutlined />,
+  },
+  {
+    label: '个人中心',
+    key: '/user',
+    icon: <UserOutlined />,
+  },
+]
+
+const SellerLayout = () => {
+  
+  const Navigate = useNavigate()
+  const onMenuClick = (route)=>{
+    const path = route.key
+    Navigate(path)
+  }
+  const location = useLocation()
+  const selectedKeys = location.pathname
+
+  const name = '大黄丰'
+  // const name =  useSelector(state=>state.user.userInfo.name)
+
+  // const dispatch = useDispatch()
+  // useEffect(()=>{
+  //   dispatch(fetchUserInfo())
+  // },[dispatch])
+
+  const onConfirm = ()=>{
+    // dispatch(clearUserInfo())
+    Navigate('/login')
+  }
+
+  return (
+    <Layout>
+      <Header className="header">
+        <div className="logo">销售后台</div>
+        <div className="user-info">
+          <span className="user-name">{name}</span>
+          <span className="user-logout">
+            <Popconfirm title="是否确认退出？" okText="退出" cancelText="取消" onConfirm={onConfirm}>
+              <LogoutOutlined /> 退出
+            </Popconfirm>
+          </span>
+        </div>
+      </Header>
+      <Layout>
+        <Sider width={200} className="site-layout-background">
+          <Menu
+            onClick={onMenuClick}
+            selectedKeys={selectedKeys}
+            mode="inline"
+            theme="dark"
+            items={items}
+            style={{ height: '100%', borderRight: 0 }}></Menu>
+        </Sider>
+        <Layout className="layout-content" style={{ padding: 20 }}>
+          <Outlet/>
+        </Layout>
+      </Layout>
+    </Layout>
+  )
+}
+export default SellerLayout
