@@ -14,13 +14,20 @@ const Goods = () => {
     1: <Tag color="warning">下架</Tag>,
     2: <Tag color="success">在售</Tag>
   }
+  const typeDic = {
+    1: '唱片',
+    2: '衣饰',
+    3: '日用品',
+    4: '其它',
+    5: '特价'
+  }
   const columns = [
     {
       title: '封面',
-      dataIndex: 'cover',
+      dataIndex: 'images',
       width: 120,
-      render: cover => {
-        return <img src={cover.images[0] || img404} width={80} height={60} alt="" />
+      render: images => {
+        return <img src={`http://127.0.0.1:3009/uploads/${images[0]}` || img404} width={80} height={60} alt="" />
       }
     },
     {
@@ -36,6 +43,7 @@ const Goods = () => {
     {
       title: '类别',
       dataIndex: 'type',
+      render: data => typeDic[data]
     },
     {
       title: '价格',
@@ -60,8 +68,8 @@ const Goods = () => {
           <Space size="middle">
             <Button type="primary" shape="circle" icon={<EditOutlined />} onClick={()=>navigate(`/edit?id=${data.id}`)}/>
             <Popconfirm
-              title="删除文章"
-              description="确认要删除当前文章吗?"
+              title="删除商品"
+              description="确认要删除该商品吗?"
               onConfirm={()=>onConfirm(data)}
               okText="Yes"
               cancelText="No"

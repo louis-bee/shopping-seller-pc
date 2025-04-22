@@ -11,6 +11,7 @@ import './Layout.scss'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearUserInfo} from '@/store/modules/user'
+import { logoutAPI } from '@/apis/user'
 
 const { Header, Sider } = Layout
 
@@ -53,9 +54,11 @@ const SellerLayout = () => {
   const selectedKeys = location.pathname
 
   const userName =  useSelector(state => state.user.userInfo.userName)
+  const userId =  useSelector(state => state.user.userInfo.id)
   const dispatch = useDispatch()
   const onConfirm = ()=>{
     dispatch(clearUserInfo())
+    logoutAPI({id: userId})
     Navigate('/login')
   }
 

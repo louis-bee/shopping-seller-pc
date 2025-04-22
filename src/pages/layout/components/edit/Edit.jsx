@@ -13,7 +13,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import './Edit.scss'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { addGoodsAPI, getGoodsByIdAPI, updateGoodsAPI } from '@/apis/goods'
 
 const { Option } = Select
@@ -43,20 +44,26 @@ const Edit = () => {
     },
   ]
 
+  const userId =  useSelector(state => state.user.userInfo.id)
+
   const onFinish = async (form) =>{
     const params = {
+      sellerId: userId,
       goodsName: form.goodsName,
       price: form.price,
       type: form.type,
+      status: form.status,
       amount: form.amount,
       images: imageList.map(item=> {
         if(item.response) {
           return item.response.data.url
         } else {
-          return item.url
+          return item.url.split('/uploads/')[1]
         }
       }),
-      desc: form.desc
+      desc: form.desc,
+      view: 0,
+      sales: 0,
     }
     let res = null
     if(goodsId) {
@@ -72,34 +79,28 @@ const Edit = () => {
     }
   }
 
-  const cacheImageList = useRef([])
   const [ imageList, setImageList ] = useState([])
   const onUploadChange =(value)=>{
-    console.log(value);
+    console.log('fileList',value.fileList);
     setImageList(value.fileList)
-    cacheImageList.current = value.fileList
   }
 
   //通过路由获取id
   const [ searchParams ] = useSearchParams()
   const goodsId = searchParams.get('id')
-
+  //初始获取商品数据
   const [form] = Form.useForm()
   useEffect(()=>{
     async function getGoodsDetail () {
       const res = await getGoodsByIdAPI({id: goodsId, view: false})
       if(res.status===200) {
         const data = res.data
-        const {cover} = data
         form.setFieldsValue({
           ...data,
         })
-        setImageList(cover.images.map(url=>{
-          return { url }
+        setImageList(data.images.map(item=>{
+          return {url: `http://127.0.0.1:3009/uploads/${item}`}
         }))
-        cacheImageList.current = cover.images.map(url=>{
-          return { url }
-        })
       } else {
         message.error('获取商品数据失败，请稍后再试')
       }
@@ -117,7 +118,7 @@ const Edit = () => {
         <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 16 }}
-          initialValues={{ type: 1 }}
+          initialValues={{ }}
           onFinish={onFinish}
           form={form}
         >
@@ -137,7 +138,7 @@ const Edit = () => {
           </Form.Item>
           <Form.Item
             label="分类"
-            name="typeId"
+            name="type"
             rules={[{ required: true, message: '请选择商品分类' }]}
           >
             <Select placeholder="请选择商品分类" style={{ width: 200 }}>
@@ -166,7 +167,7 @@ const Edit = () => {
               listType="picture-card"
               showUploadList
               name="image"
-              action={'http://geek.itheima.net/v1_0/upload'}
+              action={'http://localhost:3009/upload'}
               onChange={onUploadChange}
               maxCount={5}
               fileList={imageList}

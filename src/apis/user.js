@@ -15,3 +15,11 @@ export function registerAPI(params) {
     data: params
   })
 }
+
+export function logoutAPI(params) {
+  return request({
+    url:'api/logout',
+    method:'POST',
+    data: params
+  })
+}
