@@ -23,3 +23,11 @@ export function logoutAPI(params) {
     data: params
   })
 }
+
+export async function refreshTokenAPI(params) {
+  return request({
+    url:'api/refreshToken',
+    method:'POST',
+    data: params
+  })
+}

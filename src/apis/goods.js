@@ -8,7 +8,7 @@ export function getGoodsByIdAPI(params) {
   })
 }
 
-export function getGoodsListAPI(params) {
+export async function getGoodsListAPI(params) {
   return request({
     url:'goods/getGoodsList',
     method:'POST',

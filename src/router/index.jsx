@@ -2,7 +2,7 @@ import Layout from "@/pages/layout/Layout.jsx";
 import Entrance from "@/pages/entrance/Entrance.jsx"
 
 import { createBrowserRouter } from "react-router-dom";
-// import { AuthRoute } from "@/components/AuthRoute";  //路由守卫
+import { AuthRoute } from "@/components/AuthRoute";  //路由守卫
 import { lazy, Suspense } from "react";
 
 const Show = lazy(()=> import("@/pages/layout/components/show/Show.jsx"))
@@ -14,7 +14,7 @@ const User = lazy(()=> import("@/pages/layout/components/user/User.jsx"))
 const router = createBrowserRouter([
   {
     path:"/",
-    element: <Layout/>,
+    element: <AuthRoute><Layout/></AuthRoute>,
     children: [
       {
         index:true,
