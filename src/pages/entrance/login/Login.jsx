@@ -19,7 +19,7 @@ const Login = ({setTab}) => {
     const res = await dispatch(fetchLogin(params));
     if (res.status===200) {
       message.success('登录成功');
-      navigate('/');
+      navigate('/layout');
     } else {
       message.error(res.desc);
     }

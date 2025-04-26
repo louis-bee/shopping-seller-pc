@@ -66,7 +66,7 @@ const Goods = () => {
       render: data => {
         return (
           <Space size="middle">
-            <Button type="primary" shape="circle" icon={<EditOutlined />} onClick={()=>navigate(`/edit?id=${data.id}`)}/>
+            <Button type="primary" shape="circle" icon={<EditOutlined />} onClick={()=>navigate(`/layout/edit?id=${data.id}`)}/>
             <Popconfirm
               title="删除商品"
               description="确认要删除该商品吗?"
@@ -92,6 +92,7 @@ const Goods = () => {
 
   const userId =  useSelector(state => state.user.userInfo.id)
   const [ params, setParams ] = useState({
+    role: 2,
     sellerId: userId,
     pageSize: 10,
     pageNum: 1,

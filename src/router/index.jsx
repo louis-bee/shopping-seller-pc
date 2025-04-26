@@ -13,7 +13,7 @@ const User = lazy(()=> import("@/pages/layout/components/user/User.jsx"))
 
 const router = createBrowserRouter([
   {
-    path:"/",
+    path:"/layout",
     element: <AuthRoute><Layout/></AuthRoute>,
     children: [
       {
@@ -40,7 +40,7 @@ const router = createBrowserRouter([
     ]
   },
   {
-    path:"/login",
+    path:"/",
     element:<Entrance/>
   }
 ])

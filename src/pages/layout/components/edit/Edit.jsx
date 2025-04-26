@@ -16,6 +16,7 @@ import 'react-quill/dist/quill.snow.css'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { addGoodsAPI, getGoodsByIdAPI, updateGoodsAPI } from '@/apis/goods'
+import { refreshTokenAPI } from '@/apis/user'
 
 const { Option } = Select
 
@@ -65,6 +66,8 @@ const Edit = () => {
       view: 0,
       sales: 0,
     }
+    console.log(params.images);
+    
     let res = null
     if(goodsId) {
       res = await updateGoodsAPI({...params, id:goodsId})
@@ -73,15 +76,39 @@ const Edit = () => {
     }
     if(res.status===200) {
       message.success(res.desc)
-      Navigate('/goods')
+      Navigate('/layout/goods')
     } else {
       message.error(res.desc)
     }
   }
 
   const [ imageList, setImageList ] = useState([])
-  const onUploadChange =(value)=>{
+  const onUploadChange =async (value)=>{
+    const resp = value.fileList[value.fileList.length-1].response
     console.log('fileList',value.fileList);
+    console.log(resp);
+    
+    if(resp && resp.status===401) {
+      const refreshToken = localStorage.getItem('refreshToken')
+      //刷新token
+      const params = {
+        refreshToken: refreshToken,
+        userId: JSON.parse(localStorage.getItem('userInfo')).id
+      }
+      const res = await refreshTokenAPI(params)
+      console.log(res);
+      
+      if(res.status===402) {
+        localStorage.removeItem('token')
+        localStorage.removeItem('refreshToken')
+        localStorage.removeItem('userInfo')
+        message.warning('登录已过期，请重新登录')
+        Navigate('/')
+      } else {
+        message.warning('请重新上传')
+        return setImageList(value.fileList.slice(0,-1))
+      }
+    }
     setImageList(value.fileList)
   }
 
@@ -167,6 +194,7 @@ const Edit = () => {
               listType="picture-card"
               showUploadList
               name="image"
+              headers={{Authorization: localStorage.getItem('token')}}
               action={'http://localhost:3009/upload'}
               onChange={onUploadChange}
               maxCount={5}

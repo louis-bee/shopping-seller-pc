@@ -2,7 +2,7 @@ import { request } from "@/utils";
 
 export function getGoodsByIdAPI(params) {
   return request({
-    url:'goods/getGoodsById',
+    url:'getGoods/getGoodsById',
     method:'POST',
     data: params
   })
@@ -10,7 +10,7 @@ export function getGoodsByIdAPI(params) {
 
 export async function getGoodsListAPI(params) {
   return request({
-    url:'goods/getGoodsList',
+    url:'getGoods/getGoodsList',
     method:'POST',
     data: params
   })
@@ -18,7 +18,7 @@ export async function getGoodsListAPI(params) {
 
 export function addGoodsAPI(params) {
   return request({
-    url:'goods/addGoods',
+    url:'manageGoods/addGoods',
     method:'POST',
     data: params
   })
@@ -26,7 +26,7 @@ export function addGoodsAPI(params) {
 
 export function updateGoodsAPI(params) {
   return request({
-    url:'goods/updateGoods',
+    url:'manageGoods/updateGoods',
     method:'POST',
     data: params
   })
@@ -34,7 +34,7 @@ export function updateGoodsAPI(params) {
 
 export function delGoodsAPI(params) {
   return request({
-    url:'goods/delGoods',
+    url:'manageGoods/delGoods',
     method:'POST',
     data: params
   })

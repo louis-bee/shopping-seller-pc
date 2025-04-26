@@ -49,7 +49,7 @@ request.interceptors.response.use(async (response)=> {
     localStorage.removeItem('refreshToken')
     localStorage.removeItem('userInfo')
     message.warning('登录已过期，请重新登录')
-    router.navigate('/login')
+    router.navigate('/')
   }
   // 对响应数据做点什么
   return response.data

@@ -18,27 +18,27 @@ const { Header, Sider } = Layout
 const items = [
   {
     label: '数据中心',
-    key: '/',
+    key: '/layout',
     icon: <BarChartOutlined />,
   },
   {
     label: '商品列表',
-    key: '/goods',
+    key: '/layout/goods',
     icon: <AppstoreOutlined />,
   },
   {
     label: '发布商品',
-    key: '/edit',
+    key: '/layout/edit',
     icon: <FormOutlined />,
   },
   {
     label: '订单列表',
-    key: '/order',
+    key: '/layout/order',
     icon: <SnippetsOutlined />,
   },
   {
     label: '个人中心',
-    key: '/user',
+    key: '/layout/user',
     icon: <UserOutlined />,
   },
 ]
@@ -59,7 +59,7 @@ const SellerLayout = () => {
   const onConfirm = ()=>{
     dispatch(clearUserInfo())
     logoutAPI({id: userId})
-    Navigate('/login')
+    Navigate('/')
   }
 
   return (

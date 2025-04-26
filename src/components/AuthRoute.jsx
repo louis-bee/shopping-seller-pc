@@ -7,6 +7,6 @@ export function AuthRoute ({children}) {
     return <>{children}</>
   } else {
     message.warning('请先登录')
-    return <Navigate to={'./login'} replace />
+    return <Navigate to={'./'} replace />
   }
 }
