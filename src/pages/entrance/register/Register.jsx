@@ -6,10 +6,12 @@ const Register = ({setTab}) => {
 
   const onFinish = async (values) => {
     const params = {
-      userName: values.userName,
-      account: values.account,
-      pwd: values.pwd,
-      role: 2,
+      userInfo: {
+        userName: values.userName,
+        account: values.account,
+        pwd: values.pwd,
+        role: 2,
+      }
     }
     const res = await registerAPI(params)
     if (res.status===200) {

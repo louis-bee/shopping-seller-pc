@@ -47,6 +47,8 @@ const Edit = () => {
 
   const userId =  useSelector(state => state.user.userInfo.id)
 
+  const [store, setStore] = useState({view:0,sales:0})
+
   const onFinish = async (form) =>{
     const params = {
       sellerId: userId,
@@ -63,8 +65,8 @@ const Edit = () => {
         }
       }),
       desc: form.desc,
-      view: 0,
-      sales: 0,
+      view: store.view,
+      sales: store.sales,
     }
     console.log(params.images);
     
@@ -122,11 +124,12 @@ const Edit = () => {
       const res = await getGoodsByIdAPI({id: goodsId, view: false})
       if(res.status===200) {
         const data = res.data
+        setStore({view:res.data.view,sales:res.data.sales})
         form.setFieldsValue({
           ...data,
         })
         setImageList(data.images.map(item=>{
-          return {url: `http://127.0.0.1:3009/uploads/${item}`}
+          return {url: `${import.meta.env.VITE_API_URL}/uploads/${item}`}
         }))
       } else {
         message.error('获取商品数据失败，请稍后再试')
@@ -195,7 +198,7 @@ const Edit = () => {
               showUploadList
               name="image"
               headers={{Authorization: localStorage.getItem('token')}}
-              action={'http://localhost:3009/upload'}
+              action={`${import.meta.env.VITE_API_URL}/upload`}
               onChange={onUploadChange}
               maxCount={5}
               fileList={imageList}

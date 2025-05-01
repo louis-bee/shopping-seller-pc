@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
-import { Card, Button, Popconfirm, Table, Tag, Space } from 'antd'
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
+import { Card, Button, Popconfirm, Table, Tag, Space, Popover } from 'antd'
+import { EditOutlined, DeleteOutlined, SnippetsOutlined } from '@ant-design/icons'
 import img404 from '@/assets/img/error.png'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -23,17 +23,21 @@ const Goods = () => {
   }
   const columns = [
     {
+      title: 'id',
+      dataIndex: 'id'
+    },
+    {
       title: '封面',
       dataIndex: 'images',
-      width: 120,
+      width: 100,
       render: images => {
-        return <img src={`http://127.0.0.1:3009/uploads/${images[0]}` || img404} width={80} height={60} alt="" />
+        return <img src={`${import.meta.env.VITE_API_URL}/uploads/${images[0]}` || img404} width={60} height={60} alt="" />
       }
     },
     {
       title: '名称',
       dataIndex: 'goodsName',
-      width: 220
+      width: 300
     },
     {
       title: '状态',
@@ -63,9 +67,13 @@ const Goods = () => {
     },
     {
       title: '操作',
+      width: 200,
       render: data => {
         return (
           <Space size="middle">
+            <Popover content={'查看订单'} placement="top">
+              <Button type="primary" shape="circle" icon={<SnippetsOutlined />} onClick={()=>navigate(`/layout/order?goodsId=${data.id}`)}/>
+            </Popover>
             <Button type="primary" shape="circle" icon={<EditOutlined />} onClick={()=>navigate(`/layout/edit?id=${data.id}`)}/>
             <Popconfirm
               title="删除商品"
@@ -107,13 +115,6 @@ const Goods = () => {
     getList()
   },[params])
 
-  const onPageChange = (page)=>{
-    setParams({
-      ...params,
-      pageNum: page
-    })
-  }
-
   const onConfirm = async (data)=>{
     const delParams = {
       id: data.id,
@@ -131,7 +132,6 @@ const Goods = () => {
         <Table rowKey="id" columns={columns} dataSource={list} pagination={{
           total: count,
           pageSize: params.pageSize,
-          onChange: onPageChange
         }}/>
       </Card>
     </div>
