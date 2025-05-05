@@ -36,11 +36,11 @@ const items = [
     key: '/layout/order',
     icon: <SnippetsOutlined />,
   },
-  {
-    label: '个人中心',
-    key: '/layout/user',
-    icon: <UserOutlined />,
-  },
+  // {
+  //   label: '个人中心',
+  //   key: '/layout/user',
+  //   icon: <UserOutlined />,
+  // },
 ]
 
 const SellerLayout = () => {
