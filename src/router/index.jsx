@@ -1,7 +1,7 @@
 import Layout from "@/pages/layout/Layout.jsx";
 import Entrance from "@/pages/entrance/Entrance.jsx"
 
-import { createBrowserRouter } from "react-router-dom";
+import { createHashRouter } from "react-router-dom";
 import { AuthRoute } from "@/components/AuthRoute";  //路由守卫
 import { lazy, Suspense } from "react";
 
@@ -11,7 +11,7 @@ const Edit = lazy(()=> import("@/pages/layout/components/edit/Edit.jsx"))
 const Order = lazy(()=> import("@/pages/layout/components/order/Order.jsx"))
 const User = lazy(()=> import("@/pages/layout/components/user/User.jsx"))
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path:"/layout",
     element: <AuthRoute><Layout/></AuthRoute>,
