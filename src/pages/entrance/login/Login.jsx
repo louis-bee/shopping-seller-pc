@@ -49,7 +49,7 @@ const Login = ({setTab}) => {
       <h1>销售人员登录</h1>
       <Form
         className="form"
-        initialValues={{ account: '13724648288', pwd: '123123' }}
+        initialValues={{ account: '', pwd: '' }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
       >
