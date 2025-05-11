@@ -102,6 +102,7 @@ const Goods = () => {
   const [ params, setParams ] = useState({
     role: 2,
     sellerId: userId,
+    userId: userId,
     pageSize: 10,
     pageNum: 1,
   }) 
@@ -118,7 +119,8 @@ const Goods = () => {
   const onConfirm = async (data)=>{
     const delParams = {
       id: data.id,
-      sellerId: userId,
+      userId: userId,
+      role: 2,
     }
     await delGoodsAPI(delParams)
     setParams({

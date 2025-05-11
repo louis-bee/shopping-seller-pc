@@ -1,5 +1,5 @@
 import { Card, Button,  Table, Tag, Space, message, Form, Input, Popover } from 'antd'
-import { TruckOutlined, SearchOutlined, UndoOutlined } from '@ant-design/icons'
+import { TruckOutlined, SearchOutlined } from '@ant-design/icons'
 import img404 from '@/assets/img/error.png'
 import './Order.scss'
 import { useEffect, useState } from 'react'
@@ -86,7 +86,8 @@ const Order = () => {
     pageSize: 10,
     pageNum: 1,
     type: goodsId ? 'goods' : 'seller',
-    search: goodsId ? goodsId : userId
+    search: goodsId ? goodsId : userId,
+    userId: userId
   }) 
 
   useEffect(()=>{
@@ -101,7 +102,8 @@ const Order = () => {
   const delivery = async (id)=>{
     const params = {
       orderId: id,
-      sellerId: userId
+      userId: userId,
+      role: 2,
     }
     const res = await deliveryAPI(params)
     if(res.status===200) {
